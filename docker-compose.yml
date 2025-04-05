@@ -1,0 +1,33 @@
+# Docker Compose file for the Data Analysis Web Application (DAW) project
+services:
+  postgres:
+    image: postgres:latest
+    container_name: dawdb-container
+    restart: always
+    environment:
+      POSTGRES_DB: dawdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin123
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - daw-network
+
+  app:
+    build: .
+    container_name: dawproject-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - daw-network
+
+volumes:
+  postgres_data:
+
+networks:
+  daw-network:
