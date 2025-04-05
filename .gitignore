@@ -1,0 +1,36 @@
+# .gitignore generado para Spring Boot + Docker
+# === Java / Maven ===
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# === IDEs ===
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# === Archivos de sistema / logs / temporales ===
+*.log
+*.tmp
+*.bak
+*.swp
+.DS_Store
+Thumbs.db
+
+# === Docker ===
+**/docker-volume/
+*.env
+.env.*
+
+# === Otros ===
+*.db
+*.zip
+*.tar.gz
+*.rar
+
+# === Git ===
+*.orig
