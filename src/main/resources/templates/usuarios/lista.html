@@ -5,14 +5,56 @@
     <title>Lista de Usuarios</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="/css/list-views.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/usuarios.css}">
+
 </head>
 <body>
 </head>
 <body>
-    <!-- menu de navegacion -->
-    <div th:replace="fragments/navbar :: navbar"></div>
+
+    <!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="/home">
+    <img src="/img/TaskFlowLogoSinLetras.png" alt="TaskFlow Logo" style="height:50px; width:auto; margin-right:10px;">
+    <span>TaskFlow</span>
+</a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+               
+                <li class="nav-item">
+                    <a class="nav-link" href="/proyectos">Proyectos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/simulaciones">Simulaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/metodologias">Metodologías</a>
+            </ul>
+                
+            
+            <div class="user-menu dropdown">
+                <button class="dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="user-avatar">US</div>
+                    <span class="d-none d-md-inline ms-2 me-1">Usuario</span>
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i> Mi Perfil</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Configuración</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/login"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+    
     
     <!-- Main Content -->
     <div class="container mt-4">
@@ -34,13 +76,14 @@
                         <td th:text="${usuario.correo}"></td>
                         <td>
                             <div class="action-buttons">
-                                <a href="#" class="btn btn-sm btn-outline-primary">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                                <a href="#" class="btn btn-sm btn-outline-primary">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <button class="btn btn-sm btn-outline-danger">
+                                    <a href="#"
+                                        class="btn btn-sm btn-outline-primary btn-editar-usuario"
+                                        th:data-id="${usuario.id}"
+                                        th:data-nombre="${usuario.nombre}"
+                                        th:data-correo="${usuario.correo}">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                <button class="btn btn-sm btn-outline-danger btn-eliminar-usuario" th:data-id="${usuario.id}">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>
@@ -63,19 +106,101 @@
             </table>
         </div>
         
-        <!-- Action Buttons -->
+     
         <div class="text-center mt-4 mb-5">
             <a href="/home" class="btn btn-secondary me-2">
                 <i class="bi bi-arrow-left me-1"></i> Volver al Inicio
             </a>
-            <a href="#" class="btn btn-primary">
+            <a href="#" class="btn btn-primary btn-abrir-crear-usuario">
                 <i class="bi bi-plus-lg me-1"></i> Nuevo Usuario
             </a>
         </div>
     </div>
     
+
+    <div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-labelledby="modalEditarUsuarioLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form th:action="@{/editar-usuario}" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarUsuarioLabel">Editar Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                <input type="hidden" name="id" id="editarUsuarioId" />
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" name="nombre" id="editarUsuarioNombre" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label for="correo" class="form-label">Correo</label>
+                    <input type="email" name="correo" id="editarUsuarioCorreo" class="form-control" required />
+                </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modalEliminarUsuario" tabindex="-1" aria-labelledby="modalEliminarUsuarioLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="post" id="formEliminarUsuario" th:action="@{/eliminar-usuario}" >
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title text-danger" id="modalEliminarUsuarioLabel">Confirmar eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                <p>¿Estás seguro que deseas eliminar este usuario?</p>
+                <input type="hidden" name="id" id="eliminarUsuarioId">
+                </div>
+                <div class="modal-footer">
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modalCrearUsuario" tabindex="-1" aria-labelledby="modalCrearUsuarioLabel" aria-hidden="true">
+        <div class="modal-dialog">
+
+            <form th:action="@{/crear-usuario}" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="modalCrearUsuarioLabel">Crear Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" name="nombre" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label for="correo" class="form-label">Correo</label>
+                    <input type="email" name="correo" class="form-control" required />
+                </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/usuarios.js}"></script>
 </body>
 </html>
 

@@ -2,6 +2,8 @@ package com.libcode.dawproject.dawproject.controller;
 
 import com.libcode.dawproject.dawproject.model.Simulacion;
 import com.libcode.dawproject.dawproject.service.SimulacionService;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/simulaciones")
+@PreAuthorize("hasAnyAuthority('ROLE_Admin', 'ROLE_Editor')")
 public class SimulacionController {
 
     private final SimulacionService simulacionService;

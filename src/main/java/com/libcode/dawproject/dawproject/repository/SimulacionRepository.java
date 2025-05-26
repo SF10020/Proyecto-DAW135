@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface SimulacionRepository extends JpaRepository<Simulacion, Long> {
 
     // Ejemplo de método personalizado:
-    // List<Simulacion> findByProyectoId(Long proyectoId);
+    //List<Simulacion> findByProyectoId(Long proyectoId);
 }

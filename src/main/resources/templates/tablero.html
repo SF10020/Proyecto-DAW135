@@ -5,159 +5,263 @@
     <title>Tablero Scrum Dinámico</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="/css/scrum-board.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/tablero.css}">
 </head>
 <body>
+
 </head>
 <body>
 
-    <!-- menu de navegacion -->
-    <div th:replace="fragments/navbar :: navbar"></div>
-
-    <div class="container mt-4">
-        <h1 class="page-title">Tablero Scrum Dinámico</h1>
+    <!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <div class="navbar-logo">TF</div>
+            TaskFlow
+        </a>
         
-        <div class="scrum-board-container">
-            <div class="row">
-                <!-- Por Hacer Column -->
-                <div class="col-md-4 todo-column">
-                    <h4 class="scrum-column-header">
-                        <span><i class="bi bi-list-check"></i> Por Hacer</span>
-                        <span class="column-count">2</span>
-                    </h4>
-                    <div class="scrum-column" id="todo">
-                        <div class="card scrum-card">
-                            <div class="card-body">
-                                <h5 class="card-title">Definir requerimientos del sistema</h5>
-                                <p class="card-text">Documentar todos los requerimientos funcionales y no funcionales</p>
-                            </div>
-                            <div class="card-footer">
-                                <span class="card-badge badge-medium">Media</span>
-                                <div class="card-assignee">
-                                    <div class="assignee-avatar">JD</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card scrum-card">
-                            <div class="card-body">
-                                <h5 class="card-title">Crear modelo de base de datos</h5>
-                                <p class="card-text">Diseñar el esquema de la base de datos relacional</p>
-                            </div>
-                            <div class="card-footer">
-                                <span class="card-badge badge-high">Alta</span>
-                                <div class="card-assignee">
-                                    <div class="assignee-avatar">AM</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="add-task-btn">
-                            <i class="bi bi-plus-circle"></i> Agregar tarea
-                        </div>
-                    </div>
-                </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/home">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/proyectos">Proyectos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/simulaciones">Simulaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/metodologias">Metodologías</a>
+            </ul>
                 
-                <!-- En Progreso Column -->
-                <div class="col-md-4 doing-column">
-                    <h4 class="scrum-column-header">
-                        <span><i class="bi bi-arrow-repeat"></i> En Progreso</span>
-                        <span class="column-count">1</span>
-                    </h4>
-                    <div class="scrum-column" id="doing">
-                        <div class="card scrum-card">
-                            <div class="card-body">
-                                <h5 class="card-title">Desarrollar API REST de simulaciones</h5>
-                                <p class="card-text">Implementar endpoints para gestionar simulaciones</p>
-                            </div>
-                            <div class="card-footer">
-                                <span class="card-badge badge-high">Alta</span>
-                                <div class="card-assignee">
-                                    <div class="assignee-avatar">RL</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="add-task-btn">
-                            <i class="bi bi-plus-circle"></i> Agregar tarea
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Hecho Column -->
-                <div class="col-md-4 done-column">
-                    <h4 class="scrum-column-header">
-                        <span><i class="bi bi-check2-all"></i> Hecho</span>
-                        <span class="column-count">1</span>
-                    </h4>
-                    <div class="scrum-column" id="done">
-                        <div class="card scrum-card">
-                            <div class="card-body">
-                                <h5 class="card-title">Configuración de Docker</h5>
-                                <p class="card-text">Crear archivos Docker y Docker Compose para el entorno de desarrollo</p>
-                            </div>
-                            <div class="card-footer">
-                                <span class="card-badge badge-low">Baja</span>
-                                <div class="card-assignee">
-                                    <div class="assignee-avatar">MG</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="add-task-btn">
-                            <i class="bi bi-plus-circle"></i> Agregar tarea
-                        </div>
-                    </div>
+            
+            <div class="user-menu dropdown">
+                <button class="dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="user-avatar">US</div>
+                    <span class="d-none d-md-inline ms-2 me-1">Usuario</span>
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i> Mi Perfil</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Configuración</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/login"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <h2 class="text-center">
+    Tablero <span th:text="${metodologia}">[Metodología]</span> Dinámico
+</h2>
+
+<!-- Tablero Scrum Dinámico Limpio y Dinámico -->
+<div class="container-fluid mt-4">
+    <div class="row">
+
+        <!-- Columna: Backlog -->
+        <div class="col" th:if="${metodologia == 'Scrum'}">
+            <h3 class="text-center">Backlog</h3>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 scrum-column" id="backlog">
+                <!-- Las tareas se insertarán desde JavaScript -->
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
                 </div>
             </div>
         </div>
+
+        <!-- Columna: Sprint -->
+        <div class="col" th:if="${metodologia == 'Scrum'}">
+            <h3 class="text-center">Sprint</h3>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 scrum-column" id="sprint">
+                <!-- Las tareas se insertarán desde JavaScript -->
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna: Done -->
+        <div class="col" th:if="${metodologia == 'Scrum'}">
+            <h3 class="text-center">Done</h3>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 scrum-column" id="done">
+                <!-- Las tareas se insertarán desde JavaScript -->
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Tablero Kanban -->
+<div class="container-fluid mt-4" th:if="${metodologia == 'Kanban'}">
+    <div class="row">
+
+        <!-- Columna: To Do -->
+        <div class="col">
+            <h3 class="text-center">To Do</h3>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 kanban-column" id="todo">
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna: Doing -->
+        <div class="col">
+            <h3 class="text-center">Doing</h3>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 kanban-column" id="doing">
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna: Done -->
+        <div class="col">
+            <h3 class="text-center">Done</h3>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 kanban-column" id="done">
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Tablero Waterfall -->
+<div class="container-fluid mt-4" th:if="${metodologia == 'Waterfall'}">
+    <div class="row row-cols-1 row-cols-md-5 g-4">
+
+        <!-- Fase: Requisitos -->
+        <div class="col">
+            <h5 class="text-center">Requisitos</h5>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 waterfall-column" id="requisitos">
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+        <!-- Fase: Diseño -->
+        <div class="col">
+            <h5 class="text-center">Diseño</h5>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 waterfall-column" id="diseno">
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+        <!-- Fase: Implementación -->
+        <div class="col">
+            <h5 class="text-center">Implementación</h5>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 waterfall-column" id="implementacion">
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+        <!-- Fase: Pruebas -->
+        <div class="col">
+            <h5 class="text-center">Pruebas</h5>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 waterfall-column" id="pruebas">
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+        <!-- Fase: Mantenimiento -->
+        <div class="col">
+            <h5 class="text-center">Mantenimiento</h5>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 waterfall-column" id="mantenimiento">
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Input oculto para JavaScript -->
+<input type="hidden" id="simulacionId" th:value="${simulacion.id}" />
+
         
         <div class="text-center mt-4 mb-5">
-            <a href="/home" class="btn btn-secondary me-2">
-                <i class="bi bi-arrow-left me-1"></i> Volver al Inicio
+            <a href="/nueva-simulacion" class="btn btn-secondary me-2">
+                <i class="bi bi-arrow-left me-1"></i> Volver a lista de proyectos
             </a>
-            <button class="btn btn-primary">
+            <button id="guardarCambiosBtn" class="btn btn-primary">
                 <i class="bi bi-save me-1"></i> Guardar Cambios
             </button>
         </div>
     </div>
 
+    <!-- Modal Agregar Tarea -->
+<div class="modal fade" id="modalAgregarTarea" tabindex="-1" aria-labelledby="modalAgregarTareaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <form id="formAgregarTarea">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modalAgregarTareaLabel">Agregar Nueva Tarea</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="estadoTarea" />
+            <div class="mb-3">
+                <label for="nombreTarea" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombreTarea" required />
+            </div>
+            <div class="mb-3">
+                <label for="descripcionTarea" class="form-label">Descripción</label>
+                <textarea class="form-control" id="descripcionTarea"></textarea>
+            </div>
+            </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar Tarea</button>
+        </div>
+        </form>
+    </div>
+    </div>
+</div>
+
+<!-- Modal de confirmación de eliminación -->
+<div class="modal fade" id="modalConfirmarEliminacion" tabindex="-1" aria-labelledby="modalConfirmarEliminacionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="modalConfirmarEliminacionLabel">Confirmar eliminación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+    </div>
+    <div class="modal-body">
+        ¿Estás seguro de que deseas eliminar esta tarea?
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" id="btnConfirmarEliminar" class="btn btn-danger">Eliminar</button>
+    </div>
+    </div>
+</div>
+</div>
+
     <!-- SortableJS -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-    <script>
-        // Initialize Sortable for each column
-        const columns = ['todo', 'doing', 'done'];
-        
-        columns.forEach(columnId => {
-            new Sortable(document.getElementById(columnId), {
-                group: 'scrum',
-                animation: 150,
-                ghostClass: 'ghost',
-                onEnd: function(evt) {
-                    // Update column counts
-                    updateColumnCounts();
-                }
-            });
-        });
-        
-        // Function to update column counts
-        function updateColumnCounts() {
-            columns.forEach(columnId => {
-                const column = document.getElementById(columnId);
-                const count = column.querySelectorAll('.scrum-card').length;
-                const countElement = column.parentElement.querySelector('.column-count');
-                countElement.textContent = count;
-            });
-        }
-        
-        // Add task button functionality
-        document.querySelectorAll('.add-task-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                // In a real application, this would open a modal to create a new task
-                alert('Esta funcionalidad abriría un formulario para crear una nueva tarea.');
-            });
-        });
-    </script>
-    
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/tablero.js}"></script>
+
 </body>
 </html>
-

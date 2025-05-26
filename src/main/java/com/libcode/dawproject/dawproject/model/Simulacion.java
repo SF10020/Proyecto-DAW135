@@ -1,9 +1,21 @@
 package com.libcode.dawproject.dawproject.model;
 
-import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "simulaciones")
@@ -32,6 +44,10 @@ public class Simulacion {
     @OneToMany(mappedBy = "simulacion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DecisionSimulacion> decisiones;
 
+    @OneToMany(mappedBy = "simulacion", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("simulacion-tarea")
+    private List<Tarea> tareas;
+
     // Constructor vacío
     public Simulacion() {
         this.fechaSimulacion = LocalDateTime.now();
@@ -46,60 +62,75 @@ public class Simulacion {
         this.fechaSimulacion = LocalDateTime.now();
     }
 
-    // Getters y Setters
+// ============================
+    //         Getters
+    // ============================
+
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Proyecto getProyecto() {
         return proyecto;
     }
 
-    public void setProyecto(Proyecto proyecto) {
-        this.proyecto = proyecto;
-    }
-
     public int getTiempoEstimado() {
         return tiempoEstimado;
-    }
-
-    public void setTiempoEstimado(int tiempoEstimado) {
-        this.tiempoEstimado = tiempoEstimado;
     }
 
     public BigDecimal getCostoEstimado() {
         return costoEstimado;
     }
 
-    public void setCostoEstimado(BigDecimal costoEstimado) {
-        this.costoEstimado = costoEstimado;
-    }
-
     public int getCalidadEstimada() {
         return calidadEstimada;
-    }
-
-    public void setCalidadEstimada(int calidadEstimada) {
-        this.calidadEstimada = calidadEstimada;
     }
 
     public LocalDateTime getFechaSimulacion() {
         return fechaSimulacion;
     }
 
-    public void setFechaSimulacion(LocalDateTime fechaSimulacion) {
-        this.fechaSimulacion = fechaSimulacion;
-    }
-
     public List<DecisionSimulacion> getDecisiones() {
         return decisiones;
     }
 
+    public List<Tarea> getTareas() {
+        return tareas;
+    }
+
+    // ============================
+    //         Setters
+    // ============================
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setProyecto(Proyecto proyecto) {
+        this.proyecto = proyecto;
+    }
+
+    public void setTiempoEstimado(int tiempoEstimado) {
+        this.tiempoEstimado = tiempoEstimado;
+    }
+
+    public void setCostoEstimado(BigDecimal costoEstimado) {
+        this.costoEstimado = costoEstimado;
+    }
+
+    public void setCalidadEstimada(int calidadEstimada) {
+        this.calidadEstimada = calidadEstimada;
+    }
+
+    public void setFechaSimulacion(LocalDateTime fechaSimulacion) {
+        this.fechaSimulacion = fechaSimulacion;
+    }
+
     public void setDecisiones(List<DecisionSimulacion> decisiones) {
         this.decisiones = decisiones;
+    }
+
+    public void setTareas(List<Tarea> tareas) {
+        this.tareas = tareas;
     }
 }
