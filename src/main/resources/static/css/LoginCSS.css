@@ -1,0 +1,62 @@
+/* Additional styles for the login page */
+:root {
+    --primary-color: #14b8a6;
+    --primary-dark: #0f766e;
+    --secondary-color: #10b981;
+    --secondary-dark: #047857;
+    --bg-color: #f8fafc;
+    --text-color: #334155;
+    --light-gray: #f1f5f9;
+    --border-color: #e2e8f0;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Input focus glow effect */
+  .form-control:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.2) !important;
+  }
+  
+  /* Custom checkbox styling */
+  .form-check-input:checked {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+  }
+  
+  /* Button hover animation */
+  .btn-primary {
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+  }
+  
+  .btn-primary:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(20, 184, 166, 0.3) !important;
+  }
+  
+  /* Floating label effect */
+  .form-control:focus + .floating-label,
+  .form-control:not(:placeholder-shown) + .floating-label {
+    transform: translateY(-1.5rem) scale(0.85);
+    color: var(--primary-color);
+  }
+  
+  .floating-label {
+    position: absolute;
+    pointer-events: none;
+    left: 1rem;
+    top: 0.75rem;
+    transition: 0.2s ease all;
+    color: #94a3b8;
+  }
+  
+  /* Card hover effect */
+  .login-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  

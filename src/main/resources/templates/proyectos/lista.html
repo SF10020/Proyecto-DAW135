@@ -1,0 +1,196 @@
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Proyectos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/css/list-views.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/proyectos.css}">
+</head>
+<body>
+
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="/home">
+    <img src="/img/TaskFlowLogoSinLetras.png" alt="TaskFlow Logo" style="height:50px; width:auto; margin-right:10px;">
+    <span>TaskFlow</span>
+</a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/proyectos">Proyectos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/simulaciones">Simulaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/metodologias">Metodologías</a>
+            </ul>
+                
+            
+            <div class="user-menu dropdown">
+                <button class="dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="user-avatar">US</div>
+                    <span class="d-none d-md-inline ms-2 me-1">Usuario</span>
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i> Mi Perfil</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Configuración</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/login"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <h1 class="page-title">Lista de Proyectos</h1>
+
+        <!-- Mensaje de éxito -->
+    <div th:if="${mensajeExito}" class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        <span th:text="${mensajeExito}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+    
+        <!-- Mensaje de error -->
+    <div th:if="${mensajeError}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+        <span th:text="${mensajeError}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+        
+        <!-- Table Container -->
+        <div class="table-container">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Usuario</th>
+                        <th>Metodología</th>
+                        <th>Fecha de Creación</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="proyecto : ${proyectos}">
+                        <td th:text="${proyecto.id}"></td>
+                        <td th:text="${proyecto.nombre}"></td>
+                        <td th:text="${proyecto.usuario?.nombre}">Sin asignar</td>
+                        <td th:text="${proyecto.metodologia.nombre}"></td>
+                        <td th:text="${#temporals.format(proyecto.fechaCreacion, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteProyectoModal" th:attr="data-id=${proyecto.id}">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- If there are no proyectos -->
+                    <tr th:if="${#lists.isEmpty(proyectos)}">
+                        <td colspan="6">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">
+                                    <i class="bi bi-folder"></i>
+                                </div>
+                                <p class="empty-state-text">No hay proyectos para mostrar</p>
+                                <a href="#" class="btn btn-primary">Crear Proyecto</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="text-center mt-4 mb-5">
+            <a href="/home" class="btn btn-secondary me-2">
+                <i class="bi bi-arrow-left me-1"></i> Volver al Inicio
+            </a>
+            <!-- Botón para abrir el modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoProyectoModal">
+            Nuevo Proyecto
+            </button>
+        </div>
+    </div>
+    
+    <!-- Modal para Nuevo Proyecto-->
+<div class="modal fade" id="nuevoProyectoModal" tabindex="-1" aria-labelledby="nuevoProyectoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <form th:action="@{/proyectos/guardar}" method="post">
+        <div class="modal-header">
+            <h5 class="modal-title" id="nuevoProyectoModalLabel">Nuevo Proyecto</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+            <!-- Campo para el nombre del proyecto -->
+            <div class="mb-3">
+                <label for="nombreProyecto" class="form-label">Nombre del Proyecto</label>
+                <input type="text" class="form-control" id="nombreProyecto" name="nombre" required>
+            </div>
+
+            <!-- Dropdown para seleccionar la metodología -->
+            <div class="mb-3">
+                <label for="metodologia" class="form-label">Metodología</label>
+            <select class="form-select" id="metodologia" name="metodologiaId" required>
+                <option value="">Seleccione una metodología</option>
+                <option th:each="met : ${metodologias}" 
+                    th:value="${met.id}" 
+                    th:text="${met.nombre}">
+                </option>
+            </select>
+            </div>
+        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar Proyecto</button>
+            </div>
+        </form>
+    </div>
+    </div>
+</div>
+
+<!-- Modal for confirming project deletion -->
+<div class="modal fade" id="deleteProyectoModal" tabindex="-1" aria-labelledby="deleteProyectoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteProyectoModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                ¿Está seguro de que desea eliminar este proyecto?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form th:action="@{/proyectos/eliminar}" method="post">
+                    <input type="hidden" id="deleteProyectoId" name="id" value="">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script th:src="@{/js/proyectos.js}"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
