@@ -54,7 +54,7 @@ public class SecurityConfig {
 
                 Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
 
-                List<String> roles = oidcUser.getAttribute("https://dawproject.example.com/roles"); // asegúrate que 'roles' venga en el token
+                List<String> roles = oidcUser.getAttribute("https://dawproject.us.auth0.com/roles"); // asegúrate que 'roles' venga en el token
                 System.out.println("🔍 Roles recibidos desde Auth0: " + roles);
 
                 if (roles != null) {
