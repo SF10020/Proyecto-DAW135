@@ -25,7 +25,7 @@ Repositorio de pruebas y desarrollo para **TaskFlow**, un proyecto de DAW orient
   Existe una rama llamada `staging` en el repositorio, utilizada para los despliegues automáticos en Render. Tanto el backend como el frontend están desplegados y funcionando correctamente desde internet.
 
   - **Enlace de despliegue automatizado:**  
-    [https://taskflow-czq7.onrender.com/home](https://taskflow-czq7.onrender.com/home)
+    [https://taskflow-ibju.onrender.com](https://taskflow-ibju.onrender.com)
   - **Repositorio de despliegue (branch incluida):**  
     [https://github.com/SF10020/Proyecto-DAW135.git](https://github.com/SF10020/Proyecto-DAW135.git)
 
