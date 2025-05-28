@@ -1,0 +1,32 @@
+# Exported from Render on 2025-05-27T00:27:42Z
+services:
+- type: web
+  name: taskflow
+  runtime: docker
+  repo: https://github.com/moisescorado91/proyectoDaw
+  plan: free
+  envVars:
+  - key: SPRING_PROFILES_ACTIVE
+    sync: false
+  - key: AUTH0_ISSUER_URI
+    sync: false
+  - key: AUTH_REDIRECT_URI
+    sync: false
+  - key: REGISTRATION_AUTH0
+    sync: false
+  - key: CLIENT_SECRET_AUTH0
+    sync: false
+  - key: CLIENT_ID_AUTH0
+    sync: false
+  - key: SPRING_DATASOURCE_PASSWORD
+    sync: false
+  - key: SPRING_DATASOURCE_USERNAME
+    sync: false
+  - key: SPRING_DATASOURCE_URL
+    sync: false
+  region: oregon
+  dockerCommand: ENTRYPOINT
+  dockerContext: .
+  dockerfilePath: ./Dockerfile
+  autoDeployTrigger: commit
+version: "1"
