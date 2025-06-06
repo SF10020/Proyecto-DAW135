@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registro - Simulador de Procesos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/register.css}">
+</head>
+<body>
+    <div class="company-logo">
+        <div class="logo-placeholder">LOGO</div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card register-card">
+                    <div class="card-body">
+                        <div class="logo">
+                            <div class="logo-icon">SP</div>
+                            <h2>Crear Cuenta</h2>
+                            <p>Simulador de Procesos</p>
+                        </div>
+                        
+                        <form th:action="@{/register}" method="post">
+                            <div class="form-group">
+                                <label for="username" class="form-label">Nombre de Usuario</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-person"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="Ingrese su nombre de usuario" required>
+                                </div>
+                                <div class="form-text">El nombre de usuario debe tener al menos 5 caracteres.</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email" class="form-label">Correo Electrónico</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-envelope"></i>
+                                    </span>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su correo electrónico" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="password" class="form-label">Contraseña</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-lock"></i>
+                                    </span>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese su contraseña" required>
+                                </div>
+                                <div class="password-strength">
+                                    <div class="password-strength-meter strength-medium"></div>
+                                </div>
+                                <div class="form-text">La contraseña debe tener al menos 8 caracteres, incluyendo letras y números.</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-lock-fill"></i>
+                                    </span>
+                                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirme su contraseña" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
+                                <label class="form-check-label" for="terms">
+                                    Acepto los <a href="#" class="login-link">Términos y Condiciones</a>
+                                </label>
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">Crear Cuenta</button>
+                            </div>
+                        </form>
+                        
+                        <div class="login-section">
+                            <p class="login-text">¿Ya tiene una cuenta? <a href="login.html" class="login-link">Iniciar Sesión</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

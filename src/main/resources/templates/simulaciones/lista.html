@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Simulaciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/simulaciones.css}">
+    <style>
+        .action-buttons .btn {
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            margin-right: 5px;
+        }
+        .action-buttons .btn i {
+            font-size: 1.1rem;
+        }
+        /* Banner de alerta tipo éxito */
+        .alerta-exito {
+            background-color: #d4e9e3;
+            border: 1px solid #b7ded2;
+            color: #23423b;
+            padding: 17px 24px;
+            border-radius: 8px;
+            margin: 16px auto 20px auto;
+            position: relative;
+            font-size: 1.05em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 40px;
+            box-sizing: border-box;
+            width: 98%;
+            box-shadow: 0 1px 3px #0001;
+            max-width: 98vw;
+        }
+        .cerrar-alerta {
+            cursor: pointer;
+            font-size: 26px;
+            font-weight: bold;
+            margin-left: 16px;
+            color: #6a837b;
+            user-select: none;
+            transition: color 0.2s;
+        }
+        .cerrar-alerta:hover {
+            color: #23423b;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="/home">
+    <img src="/img/TaskFlowLogoSinLetras.png" alt="TaskFlow Logo" style="height:50px; width:auto; margin-right:10px;">
+    <span>TaskFlow</span>
+</a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+               
+                <li class="nav-item">
+                    <a class="nav-link" href="/proyectos">Proyectos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/simulaciones">Simulaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/metodologias">Metodologías</a>
+            </ul>
+                
+            
+            <div class="user-menu dropdown">
+                <button class="dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="user-avatar">US</div>
+                    <span class="d-none d-md-inline ms-2 me-1">Usuario</span>
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i> Mi Perfil</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Configuración</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/login"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="container mt-4">
+    <!-- Banner de alerta tipo éxito -->
+    <div id="alerta-exito" class="alerta-exito" style="display:none;">
+      <span id="mensaje-alerta"></span>
+      <span class="cerrar-alerta" onclick="cerrarAlertaExito()">&times;</span>
+    </div>
+    <h1 class="page-title">Lista de Simulaciones</h1>
+    <div class="table-container">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Proyecto</th>
+                    <th>Tiempo Estimado (días)</th>
+                    <th>Costo Estimado</th>
+                    <th>Calidad Estimada (%)</th>
+                    <th>Fecha de Simulación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="simulacion : ${simulaciones}" th:attr="data-simulacion-id=${simulacion.id}">
+                    <td th:text="${simulacion.id}"></td>
+                    <td th:text="${simulacion.proyecto.nombre}"></td>
+                    <td th:text="${simulacion.tiempoEstimado}" class="tiempo-estimado"></td>
+                    <td th:text="${simulacion.costoEstimado}" class="costo-estimado"></td>
+                    <td th:text="${simulacion.calidadEstimada}" class="calidad-estimada"></td>
+                    <td th:text="${#temporals.format(simulacion.fechaSimulacion, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td>
+                        <div class="action-buttons d-flex">
+                            <a th:href="@{'/tablero/' + ${simulacion.proyecto.id}}" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <button type="button" class="btn btn-sm btn-outline-info edit-button"
+                                    data-bs-toggle="modal" data-bs-target="#editSimulacionModal"
+                                    th:data-simulacion-id="${simulacion.id}"
+                                    th:data-tiempo="${simulacion.tiempoEstimado}"
+                                    th:data-costo="${simulacion.costoEstimado}"
+                                    th:data-calidad="${simulacion.calidadEstimada}">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <a href="#" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-bar-chart"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(simulaciones)}">
+                    <td colspan="7">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">
+                                <i class="bi bi-play-circle"></i>
+                            </div>
+                            <p class="empty-state-text">No hay simulaciones para mostrar</p>
+                            <a href="/nueva-simulacion" class="btn btn-primary">Nueva Simulación</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center mt-4 mb-5">
+        <a href="/home" class="btn btn-secondary me-2">
+            <i class="bi bi-arrow-left me-1"></i> Volver al Inicio
+        </a>
+        <a href="/nueva-simulacion" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i> Nueva Simulación
+        </a>
+    </div>
+</div>
+<div class="modal fade" id="editSimulacionModal" tabindex="-1" aria-labelledby="editSimulacionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editSimulacionModalLabel">Editar Simulación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editSimulacionForm">
+                    <input type="hidden" id="simulacionId" name="id">
+                    <div class="mb-3">
+                        <label for="modalTiempoEstimado" class="form-label">Tiempo Estimado (días):</label>
+                        <input type="number" class="form-control" id="modalTiempoEstimado" name="tiempoEstimado" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalCostoEstimado" class="form-label">Costo Estimado:</label>
+                        <input type="number" step="0.01" class="form-control" id="modalCostoEstimado" name="costoEstimado" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalCalidadEstimada" class="form-label">Calidad Estimada (%):</label>
+                        <input type="number" step="0.01" min="0" max="100" class="form-control" id="modalCalidadEstimada" name="calidadEstimada" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="saveSimulacionChanges">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/simulaciones.js}"></script>
+</body>
+</html>

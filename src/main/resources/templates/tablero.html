@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tablero Scrum Dinámico</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/tablero.css}">
+</head>
+<body>
+
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <div class="navbar-logo">TF</div>
+            TaskFlow
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/home">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/proyectos">Proyectos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/simulaciones">Simulaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/metodologias">Metodologías</a>
+            </ul>
+                
+            
+            <div class="user-menu dropdown">
+                <button class="dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="user-avatar">US</div>
+                    <span class="d-none d-md-inline ms-2 me-1">Usuario</span>
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i> Mi Perfil</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Configuración</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/login"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <h2 class="text-center">
+    Tablero <span th:text="${metodologia}">[Metodología]</span> Dinámico
+</h2>
+
+<!-- Tablero Scrum Dinámico Limpio y Dinámico -->
+<div class="container-fluid mt-4">
+    <div class="row">
+
+        <!-- Columna: Backlog -->
+        <div class="col" th:if="${metodologia == 'Scrum'}">
+            <h3 class="text-center">Backlog</h3>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 scrum-column" id="backlog">
+                <!-- Las tareas se insertarán desde JavaScript -->
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna: Sprint -->
+        <div class="col" th:if="${metodologia == 'Scrum'}">
+            <h3 class="text-center">Sprint</h3>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 scrum-column" id="sprint">
+                <!-- Las tareas se insertarán desde JavaScript -->
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna: Done -->
+        <div class="col" th:if="${metodologia == 'Scrum'}">
+            <h3 class="text-center">Done</h3>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 scrum-column" id="done">
+                <!-- Las tareas se insertarán desde JavaScript -->
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Tablero Kanban -->
+<div class="container-fluid mt-4" th:if="${metodologia == 'Kanban'}">
+    <div class="row">
+
+        <!-- Columna: To Do -->
+        <div class="col">
+            <h3 class="text-center">To Do</h3>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 kanban-column" id="todo">
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna: Doing -->
+        <div class="col">
+            <h3 class="text-center">Doing</h3>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 kanban-column" id="doing">
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna: Done -->
+        <div class="col">
+            <h3 class="text-center">Done</h3>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 kanban-column" id="done">
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Tablero Waterfall -->
+<div class="container-fluid mt-4" th:if="${metodologia == 'Waterfall'}">
+    <div class="row row-cols-1 row-cols-md-5 g-4">
+
+        <!-- Fase: Requisitos -->
+        <div class="col">
+            <h5 class="text-center">Requisitos</h5>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 waterfall-column" id="requisitos">
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+        <!-- Fase: Diseño -->
+        <div class="col">
+            <h5 class="text-center">Diseño</h5>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 waterfall-column" id="diseno">
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+        <!-- Fase: Implementación -->
+        <div class="col">
+            <h5 class="text-center">Implementación</h5>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 waterfall-column" id="implementacion">
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+        <!-- Fase: Pruebas -->
+        <div class="col">
+            <h5 class="text-center">Pruebas</h5>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 waterfall-column" id="pruebas">
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+        <!-- Fase: Mantenimiento -->
+        <div class="col">
+            <h5 class="text-center">Mantenimiento</h5>
+            <div class="p-2 bg-light rounded shadow-sm min-vh-50 waterfall-column" id="mantenimiento">
+                <div class="add-task-btn mt-2 text-primary" style="cursor: pointer;">
+                    <i class="bi bi-plus-circle"></i> Agregar tarea
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Input oculto para JavaScript -->
+<input type="hidden" id="simulacionId" th:value="${simulacion.id}" />
+
+        
+        <div class="text-center mt-4 mb-5">
+            <a href="/nueva-simulacion" class="btn btn-secondary me-2">
+                <i class="bi bi-arrow-left me-1"></i> Volver a lista de proyectos
+            </a>
+            <button id="guardarCambiosBtn" class="btn btn-primary">
+                <i class="bi bi-save me-1"></i> Guardar Cambios
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal Agregar Tarea -->
+<div class="modal fade" id="modalAgregarTarea" tabindex="-1" aria-labelledby="modalAgregarTareaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <form id="formAgregarTarea">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modalAgregarTareaLabel">Agregar Nueva Tarea</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="estadoTarea" />
+            <div class="mb-3">
+                <label for="nombreTarea" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombreTarea" required />
+            </div>
+            <div class="mb-3">
+                <label for="descripcionTarea" class="form-label">Descripción</label>
+                <textarea class="form-control" id="descripcionTarea"></textarea>
+            </div>
+            </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar Tarea</button>
+        </div>
+        </form>
+    </div>
+    </div>
+</div>
+
+<!-- Modal de confirmación de eliminación -->
+<div class="modal fade" id="modalConfirmarEliminacion" tabindex="-1" aria-labelledby="modalConfirmarEliminacionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="modalConfirmarEliminacionLabel">Confirmar eliminación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+    </div>
+    <div class="modal-body">
+        ¿Estás seguro de que deseas eliminar esta tarea?
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" id="btnConfirmarEliminar" class="btn btn-danger">Eliminar</button>
+    </div>
+    </div>
+</div>
+</div>
+
+    <!-- SortableJS -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/tablero.js}"></script>
+
+</body>
+</html>
