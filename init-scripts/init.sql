@@ -1,7 +1,8 @@
 CREATE TABLE usuarios (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
-    correo VARCHAR(100) UNIQUE
+    correo VARCHAR(100) UNIQUE,
+    rol VARCHAR(20) NOT NULL CHECK (rol IN ('Admin', 'Editor'))
 );
 
 CREATE TABLE metodologias (
@@ -36,22 +37,40 @@ CREATE TABLE decisiones_simulacion (
     FOREIGN KEY (simulacion_id) REFERENCES simulaciones(id) ON DELETE CASCADE
 );
 
+CREATE TABLE tareas (
+    id SERIAL PRIMARY KEY,
+    simulacion_id INT NOT NULL,
+    usuario_id INT NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    estado VARCHAR(50) NOT NULL DEFAULT 'Por hacer' 
+        CHECK (estado IN (
+            'Por hacer', 'En Progreso', 'Hecho',         -- General
+            'Backlog', 'Sprint', 'Done',                 -- Scrum
+            'To Do', 'Doing', 'Done',                    -- Kanban
+            'Requisitos', 'Diseño', 'Codificación', 'Pruebas', 'Mantenimiento' -- Waterfall
+        )),
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (simulacion_id) REFERENCES simulaciones(id) ON DELETE CASCADE,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
 -- DATOS DE PRUEBA
-INSERT INTO usuarios (nombre, correo)
+INSERT INTO usuarios (nombre, correo, rol)
 VALUES
-    ('Ana Pérez', 'ana.perez@example.com'),
-    ('Carlos López', 'carlos.lopez@example.com');
+
+    ('Administrador', 'sf10020@ues.edu.sv', 'Admin'),
+    ('Editor1', 'mc23152@ues.edu.sv', 'Editor'),
+    ('Editor2', 'mm23084@ues.edu.sv', 'Editor');
 
 INSERT INTO metodologias (nombre)
 VALUES
     ('Scrum'),
     ('Kanban'),
     ('Waterfall');
-
+/*
 INSERT INTO proyectos (nombre, usuario_id, metodologia_id)
-VALUES
-    ('Sistema de Inventario', 1, 1),
-    ('App de Reservas', 2, 2);
+VALUES ('Sistema de Inventario', 1, 1);
 
 INSERT INTO simulaciones (proyecto_id, tiempo_estimado, costo_estimado, calidad_estimada)
 VALUES
@@ -64,3 +83,4 @@ VALUES
     (1, 'Reducir alcance de funcionalidades para priorizar tiempo.'),
     (2, 'Agregar pruebas automatizadas para mejorar calidad.'),
     (2, 'Implementar integración continua con Docker.');
+*/
