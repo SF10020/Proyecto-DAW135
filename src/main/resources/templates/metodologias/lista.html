@@ -14,51 +14,8 @@
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center" href="/home">
-    <img src="/img/TaskFlowLogoSinLetras.png" alt="TaskFlow Logo" style="height:50px; width:auto; margin-right:10px;">
-    <span>TaskFlow</span>
-</a>
-        
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-               
-                <li class="nav-item">
-                    <a class="nav-link" href="/proyectos">Proyectos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/simulaciones">Simulaciones</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/metodologias">Metodologías</a>
-            </ul>
-                
-            
-            <div class="user-menu dropdown">
-                <button class="dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="user-avatar">US</div>
-                    <span class="d-none d-md-inline ms-2 me-1">Usuario</span>
-                    <i class="bi bi-chevron-down"></i>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i> Mi Perfil</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Configuración</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="/login"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</nav>
-    
-    <!-- Main Content -->
-
+    <!-- menu de navegacion reutilizable -->
+    <div th:replace="fragments/navbar :: navbar"></div>
     
     <div class="container mt-4">
         <h1 class="page-title">Lista de Metodologías</h1>
@@ -70,6 +27,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
+                        <th>Descripcion</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -77,6 +35,7 @@
                     <tr th:each="metodologia : ${metodologias}">
                         <td th:text="${metodologia.id}"></td>
                         <td th:text="${metodologia.nombre}"></td>
+                        <td th:text="${metodologia.descripcion}"></td>
                         <td>
                             <div class="action-buttons">
                                 <a href="#" class="btn btn-sm btn-outline-success"
@@ -90,7 +49,7 @@
                                 <a href="#" class="btn btn-sm btn-outline-primary"
                                     data-bs-toggle="modal"
                                     data-bs-target="#modalEditarMetodologia"
-                                    th:attr="data-id=${metodologia.id}, data-nombre=${metodologia.nombre}">
+                                    th:attr="data-id=${metodologia.id}, data-nombre=${metodologia.nombre}, data-descripcion=${metodologia.descripcion}" >
                                         <i class="bi bi-pencil"></i>
                                 </a>
 
@@ -142,6 +101,10 @@
                     <label for="nombreMetodologia" class="form-label">Nombre de la Metodología</label>
                     <input type="text" class="form-control" id="nombreMetodologia" name="nombre" required>
                 </div>
+                <div class="mb-3">
+                    <label for="descripcionMetodologia" class="form-label">Descripción</label>
+                    <textarea class="form-control" id="descripcionMetodologia" name="descripcion" rows="4" placeholder="Esta metodologia se basa en..."></textarea>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primary">Guardar</button>
@@ -155,9 +118,6 @@
     <div th:if="${mensaje}" class="alert alert-success" role="alert">
         <span th:text="${mensaje}"></span>
     </div>
-
-
-    <!--editar-->
 
     <div class="modal fade" id="modalEditarMetodologia" tabindex="-1" aria-labelledby="modalEditarMetodologiaLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -173,6 +133,10 @@
                             <label for="editNombreMetodologia" class="form-label">Nombre</label>
                             <input type="text" class="form-control" name="nombre" id="editNombreMetodologia" required>
                         </div>
+                           <div class="mb-3">
+                                <label for="descripcionMetodologiaEdit" class="form-label">Descripción</label>
+                                <textarea class="form-control" id="descripcionMetodologiaEdit" name="descripcion" rows="4" placeholder="Esta metodologia se basa en..."></textarea>
+                            </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -183,8 +147,6 @@
         </div>
     </div>
 
-
-    <!--informacion de cada metodologia-->
     <div class="modal fade" id="modalProyectosMetodologia" tabindex="-1" aria-labelledby="modalProyectosMetodologiaLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">

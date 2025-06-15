@@ -5,9 +5,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const button = event.relatedTarget;
         const id = button.getAttribute('data-id');
         const nombre = button.getAttribute('data-nombre');
-
+        const descripcion = button.getAttribute('data-descripcion') ?? 'sin descripcion';
         document.getElementById('editIdMetodologia').value = id;
         document.getElementById('editNombreMetodologia').value = nombre;
+        document.getElementById('descripcionMetodologiaEdit').value = descripcion;
     });
 });
 
