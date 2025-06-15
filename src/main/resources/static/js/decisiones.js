@@ -46,9 +46,6 @@ selectProyect.addEventListener('change', () => {
         .catch(error => console.error('Error:', error));
 })
 
-
-
-
 let idToDelete = null;
 
 $(document).on('click', '.btnDeleteDecision', function () {

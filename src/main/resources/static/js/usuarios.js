@@ -12,6 +12,7 @@
             boton.addEventListener('click', function (e) {
                 e.preventDefault();
                 document.getElementById('editarUsuarioId').value = this.dataset.id;
+                document.getElementById('editarRol').value = this.dataset.rol;
                 document.getElementById('editarUsuarioNombre').value = this.dataset.nombre;
                 document.getElementById('editarUsuarioCorreo').value = this.dataset.correo;
 

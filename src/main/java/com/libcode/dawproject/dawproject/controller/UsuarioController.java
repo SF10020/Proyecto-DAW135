@@ -18,7 +18,6 @@ import java.util.List;
 @Controller
 @PreAuthorize("hasAuthority('ROLE_Admin')")
 public class UsuarioController {
-
     private final UsuarioService usuarioService;
 
     public UsuarioController(UsuarioService usuarioService) {
@@ -29,7 +28,7 @@ public class UsuarioController {
     public String listarUsuarios(Model model) {
         List<Usuario> usuarios = usuarioService.obtenerTodos();
         model.addAttribute("usuarios", usuarios);
-        return "usuarios/lista"; 
+        return "usuarios/lista";
     }
 
     @PostMapping("/crear-usuario")
@@ -50,24 +49,54 @@ public class UsuarioController {
         return "redirect:/usuarios";
     }
 
-}
+    // private final UsuarioService usuarioService;
 
+    // public UsuarioController(UsuarioService usuarioService) {
+    // this.usuarioService = usuarioService;
+    // }
+
+    // @GetMapping("/usuarios")
+    // public String listarUsuarios(Model model) {
+    // List<Usuario> usuarios = usuarioService.obtenerTodos();
+    // model.addAttribute("usuarios", usuarios);
+    // return "usuarios/lista";
+    // }
+
+    // @PostMapping("/crear-usuario")
+    // public String crearUsuario(@ModelAttribute Usuario usuario) {
+    // usuarioService.guardar(usuario);
+    // return "redirect:/usuarios";
+    // }
+
+    // @PostMapping("/editar-usuario")
+    // public String editarUsuario(@ModelAttribute Usuario usuario) {
+    // usuarioService.guardar(usuario);
+    // return "redirect:/usuarios";
+    // }
+
+    // @PostMapping("/eliminar-usuario")
+    // public String eliminarUsuario(@RequestParam("id") Long id) {
+    // usuarioService.eliminar(id);
+    // return "redirect:/usuarios";
+    // }
+
+}
 
 // @Controller
 // @RequestMapping("/usuarios")
 // public class UsuarioController {
 
-//     private final UsuarioService usuarioService;
+// private final UsuarioService usuarioService;
 
-//     public UsuarioController(UsuarioService usuarioService) {
-//         this.usuarioService = usuarioService;
-//     }
+// public UsuarioController(UsuarioService usuarioService) {
+// this.usuarioService = usuarioService;
+// }
 
-//     // Ruta: http://localhost:8080/usuarios
-//     @GetMapping
-//     public String listarUsuarios(Model model) {
-//         List<Usuario> usuarios = usuarioService.obtenerTodos();
-//         model.addAttribute("usuarios", usuarios);
-//         return "usuarios/lista"; // hace referencia a templates/Usuarios/lista.html
-//     }
+// // Ruta: http://localhost:8080/usuarios
+// @GetMapping
+// public String listarUsuarios(Model model) {
+// List<Usuario> usuarios = usuarioService.obtenerTodos();
+// model.addAttribute("usuarios", usuarios);
+// return "usuarios/lista"; // hace referencia a templates/Usuarios/lista.html
+// }
 // }

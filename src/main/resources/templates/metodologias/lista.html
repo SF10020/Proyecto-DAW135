@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Lista de Metodologías</title>
@@ -37,14 +38,13 @@
                         <td th:text="${metodologia.nombre}"></td>
                         <td th:text="${metodologia.descripcion}"></td>
                         <td>
-                            <div class="action-buttons">
+                            <div class="action-buttons"  style="display: flex; gap: 5px; flex-direction: row;">
                                 <a href="#" class="btn btn-sm btn-outline-success"
                                     data-bs-toggle="modal"
                                     data-bs-target="#modalProyectosMetodologia"
                                     th:attr="data-id=${metodologia.id}, data-nombre=${metodologia.nombre}">
                                           <i class="bi bi-eye"></i>
                                 </a>
-
 
                                 <a href="#" class="btn btn-sm btn-outline-primary"
                                     data-bs-toggle="modal"
@@ -53,19 +53,6 @@
                                         <i class="bi bi-pencil"></i>
                                 </a>
 
-                            </div>
-                        </td>
-                    </tr>
-                    
-                    <!-- If there are no metodologias -->
-                    <tr th:if="${#lists.isEmpty(metodologias)}">
-                        <td colspan="3">
-                            <div class="empty-state">
-                                <div class="empty-state-icon">
-                                    <i class="bi bi-diagram-3"></i>
-                                </div>
-                                <p class="empty-state-text">No hay metodologías para mostrar</p>
-                                <a href="#" class="btn btn-primary">Agregar Metodología</a>
                             </div>
                         </td>
                     </tr>

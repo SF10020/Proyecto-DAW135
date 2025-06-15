@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Lista de Usuarios</title>
@@ -25,6 +26,7 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
+                        <th>Rol</th>
                         <th>Nombre</th>
                         <th>Correo</th>
                         <th>Acciones</th>
@@ -32,33 +34,22 @@
                 </thead>
                 <tbody>
                     <tr th:each="usuario : ${usuarios}">
+                        <td th:text="${usuario.rol}"></td>
                         <td th:text="${usuario.nombre}"></td>
                         <td th:text="${usuario.correo}"></td>
                         <td>
                             <div class="action-buttons">
-                                    <a href="#"
-                                        class="btn btn-sm btn-outline-primary btn-editar-usuario"
-                                        th:data-id="${usuario.id}"
-                                        th:data-nombre="${usuario.nombre}"
-                                        th:data-correo="${usuario.correo}">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
+                                <a href="#"
+                                    class="btn btn-sm btn-outline-primary btn-editar-usuario"
+                                    th:data-id="${usuario.id}"
+                                    th:data-nombre="${usuario.nombre}"
+                                    th:data-rol="${usuario.rol}"
+                                    th:data-correo="${usuario.correo}">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
                                 <button class="btn btn-sm btn-outline-danger btn-eliminar-usuario" th:data-id="${usuario.id}">
                                     <i class="bi bi-trash"></i>
                                 </button>
-                            </div>
-                        </td>
-                    </tr>
-                    
-                    <!-- If there are no usuarios -->
-                    <tr th:if="${#lists.isEmpty(usuarios)}">
-                        <td colspan="3">
-                            <div class="empty-state">
-                                <div class="empty-state-icon">
-                                    <i class="bi bi-people"></i>
-                                </div>
-                                <p class="empty-state-text">No hay usuarios para mostrar</p>
-                                <a href="#" class="btn btn-primary">Agregar Usuario</a>
                             </div>
                         </td>
                     </tr>
@@ -88,6 +79,7 @@
                 </div>
                 <div class="modal-body">
                 <input type="hidden" name="id" id="editarUsuarioId" />
+                <input type="hidden" name="rol" id="editarRol" />
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre</label>
                     <input type="text" name="nombre" id="editarUsuarioNombre" class="form-control" required />

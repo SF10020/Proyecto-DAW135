@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Lista de Decisiones</title>
@@ -14,9 +15,8 @@
 
     <!-- menu de navegacion reutilizable -->
     <div th:replace="fragments/navbar :: navbar"></div>
-    
     <!-- Main Content -->
-    <div class="container mt-4">
+   <div class="container mt-4">
         <h1 class="page-title">Lista de Decisiones de Simulación</h1>
         
         <!-- Table Container -->
@@ -62,19 +62,6 @@
                                 <i class="bi bi-trash"></i>
                             </button>
                         </td> 
-                    </tr>
-                    
-                    <!-- If there are no decisions -->
-                    <tr th:if="${#lists.isEmpty(decisiones)}">
-                        <td colspan="4">
-                            <div class="empty-state">
-                                <div class="empty-state-icon">
-                                    <i class="bi bi-clipboard-check"></i>
-                                </div>
-                                <p class="empty-state-text">No hay decisiones para mostrar</p>
-                                <a href="/nueva-simulacion" class="btn btn-primary">Crear Nueva Simulación</a>
-                            </div>
-                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -131,7 +118,7 @@
             </div>
             </div>
         </div>
-        </div>
+    </div>
 
     
     <!-- Bootstrap JS -->
