@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface MetodologiaRepository extends JpaRepository<Metodologia, Long> {
 
     // Ejemplo de método personalizado:
-    // Optional<Metodologia> findByNombre(String nombre);
+    //Optional<Metodologia> findByNombre(String nombre);
 }
 

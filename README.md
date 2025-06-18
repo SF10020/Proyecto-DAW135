@@ -1,3 +1,4 @@
+
 # TaskFlow - ProyectoDAW135 
 
 Repositorio de pruebas y desarrollo para **TaskFlow**, un proyecto de DAW orientado a la gestión, simulación y seguimiento de proyectos utilizando diferentes metodologías ágiles como Scrum.
@@ -25,7 +26,7 @@ Repositorio de pruebas y desarrollo para **TaskFlow**, un proyecto de DAW orient
   Existe una rama llamada `staging` en el repositorio, utilizada para los despliegues automáticos en Render. Tanto el backend como el frontend están desplegados y funcionando correctamente desde internet.
 
   - **Enlace de despliegue automatizado:**  
-    [https://taskflow-czq7.onrender.com/home](https://taskflow-czq7.onrender.com/home)
+    [https://taskflow-ibju.onrender.com](https://taskflow-ibju.onrender.com)
   - **Repositorio de despliegue (branch incluida):**  
     [https://github.com/SF10020/Proyecto-DAW135.git](https://github.com/SF10020/Proyecto-DAW135.git)
 
@@ -98,3 +99,4 @@ Repositorio gestionado por
   -[Ricardo Antonio Mora Morales](https://github.com/MM23084).
   -[Moises Isaac Molina Corado](https://github.com/moisescorado91)
   -[Carlos Manuel Solis Flores](https://github.com/SF10020)
+

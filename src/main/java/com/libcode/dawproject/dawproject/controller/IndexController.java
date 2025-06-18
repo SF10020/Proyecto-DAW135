@@ -1,41 +1,30 @@
 package com.libcode.dawproject.dawproject.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class IndexController {
 
-    // Esta será la ruta principal que redirigirá al login
+    // Redirige a /home si el usuario accede a la raíz
     @GetMapping("/")
-    public String redirectToLogin() {
-        return "redirect:/login";
+    public String redirectToHome() {
+        return "redirect:/home";
     }
-    
-    // Ruta para mostrar la página de login
+
+    // Muestra la vista personalizada con el botón de Auth0
     @GetMapping("/login")
     public String login() {
         return "login";
     }
-    
-    // La ruta /home mostrará el dashboard (antiguo index)
+
+    // Vista principal del dashboard
     @GetMapping("/home")
     public String home() {
         return "index";
     }
-    
-    // Esta ruta procesará el formulario de login (simulado)
-    @PostMapping("/auth")
-    public String processLogin() {
-        // No verificamos credenciales, simplemente redirigimos al dashboard
-        return "redirect:/home";
-    }
-    
-    //@GetMapping("/nueva-simulacion")
-    //public String nuevaSimulacion() {
-        //return "formulario-simulacion";
-    //}
 }
+
 
 

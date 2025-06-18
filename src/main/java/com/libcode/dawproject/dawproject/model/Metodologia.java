@@ -3,6 +3,7 @@ package com.libcode.dawproject.dawproject.model;
 import jakarta.persistence.*;
 import java.util.List;
 
+
 @Entity
 @Table(name = "metodologias")
 public class Metodologia {
@@ -14,16 +15,21 @@ public class Metodologia {
     @Column(unique = true, nullable = false, length = 50)
     private String nombre;
 
-    // Relación con Proyecto (1 Metodología puede tener muchos proyectos)
+    @Column(length = 255)
+    private String descripcion;
+
     @OneToMany(mappedBy = "metodologia", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Proyecto> proyectos;
 
-    // Constructor vacío requerido por JPA
     public Metodologia() {}
 
-    // Constructor con parámetros
     public Metodologia(String nombre) {
         this.nombre = nombre;
+    }
+
+    public Metodologia(String nombre, String descripcion) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
     }
 
     // Getters y Setters
@@ -41,6 +47,14 @@ public class Metodologia {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public List<Proyecto> getProyectos() {

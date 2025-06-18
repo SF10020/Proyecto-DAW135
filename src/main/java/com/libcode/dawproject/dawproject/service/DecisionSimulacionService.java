@@ -1,5 +1,6 @@
 package com.libcode.dawproject.dawproject.service;
 
+import com.libcode.dawproject.dawproject.dto.DecisionSimulacionDTO;
 import com.libcode.dawproject.dawproject.model.DecisionSimulacion;
 import com.libcode.dawproject.dawproject.repository.DecisionSimulacionRepository;
 import org.springframework.stereotype.Service;
@@ -32,8 +33,17 @@ public class DecisionSimulacionService {
         decisionSimulacionRepository.deleteById(id);
     }
 
+    // agregados
+    public List<DecisionSimulacionDTO> obtenerDecisionesConSimulacion() {
+        return decisionSimulacionRepository.obtenerDecisionesConSimulacion();
+    }
+
+    public List<DecisionSimulacionDTO> obtenerDecisionesPorProyecto(Long proyectoId) {
+        return decisionSimulacionRepository.obtenerDecisionesPorProyecto(proyectoId);
+    }
+
     // Ejemplo: Obtener decisiones por simulación:
     // public List<DecisionSimulacion> obtenerPorSimulacionId(Long id) {
-    //     return decisionSimulacionRepository.findBySimulacionId(id);
+    // return decisionSimulacionRepository.findBySimulacionId(id);
     // }
 }
