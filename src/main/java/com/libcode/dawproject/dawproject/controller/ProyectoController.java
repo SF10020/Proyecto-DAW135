@@ -30,7 +30,7 @@ public class ProyectoController {
     private final DecisionSimulacionService decisionSimulacionService;
 
     public ProyectoController(ProyectoService proyectoService, MetodologiaService metodologiaService,
-                               DecisionSimulacionService decisionSimulacionService) {
+            DecisionSimulacionService decisionSimulacionService) {
         this.proyectoService = proyectoService;
         this.metodologiaService = metodologiaService;
         this.decisionSimulacionService = decisionSimulacionService;
@@ -41,7 +41,7 @@ public class ProyectoController {
     public ResponseEntity<?> crearDecisionSimulacion(
             @RequestParam("proyectoId") Long proyectoId,
             @RequestParam("descripcion") String descripcion,
-            @RequestParam("prioridad") String prioridad) {
+            @RequestParam("prioridad") String prioridad) { // nuevo parámetro
 
         Optional<Proyecto> proyectoOpt = proyectoService.obtenerPorId(proyectoId);
         if (proyectoOpt.isEmpty()) {
@@ -49,8 +49,8 @@ public class ProyectoController {
         }
 
         Proyecto proyecto = proyectoOpt.get();
-        List<Simulacion> simulaciones = proyecto.getSimulaciones();
 
+        List<Simulacion> simulaciones = proyecto.getSimulaciones();
         if (simulaciones == null || simulaciones.isEmpty()) {
             return ResponseEntity.badRequest().body("No existe simulación para este proyecto");
         }
@@ -60,7 +60,7 @@ public class ProyectoController {
         DecisionSimulacion decision = new DecisionSimulacion();
         decision.setSimulacion(simulacion);
         decision.setDescripcion(descripcion);
-        decision.setPrioridad(prioridad);
+        decision.setPrioridad(prioridad); // asignar prioridad
 
         try {
             decisionSimulacionService.guardar(decision);
@@ -70,11 +70,12 @@ public class ProyectoController {
         }
     }
 
+    // Ruta: http://localhost:8080/proyectos
     @GetMapping
     public String listarProyectos(Model model,
-                                  @RequestParam(value = "exito", required = false) String exito,
-                                  @RequestParam(value = "eliminado", required = false) String eliminado,
-                                  @RequestParam(value = "error", required = false) String error) {
+            @RequestParam(value = "exito", required = false) String exito,
+            @RequestParam(value = "eliminado", required = false) String eliminado,
+            @RequestParam(value = "error", required = false) String error) {
         List<Proyecto> proyectos = proyectoService.obtenerTodos();
         model.addAttribute("proyectos", proyectos);
         model.addAttribute("metodologias", metodologiaService.obtenerTodas());
@@ -96,7 +97,7 @@ public class ProyectoController {
 
     @PostMapping("/guardar")
     public String guardarProyecto(@RequestParam("nombre") String nombre,
-                                   @RequestParam("metodologiaId") Long metodologiaId) {
+            @RequestParam("metodologiaId") Long metodologiaId) {
         try {
             proyectoService.guardarProyecto(nombre, metodologiaId);
             return "redirect:/proyectos?exito";
@@ -120,4 +121,26 @@ public class ProyectoController {
     public List<Proyecto> obtenerProyectosPorMetodologia(@RequestParam("id") Long metodologiaId) {
         return proyectoService.obtenerPorMetodologiaId(metodologiaId);
     }
+
+    // temporal
+    // @PostMapping("/decisiones/crearDecision")
+    // @ResponseBody
+    // public ResponseEntity<?> crearDecisionSimulacion(
+    // @RequestParam("idDecision") Long idDecision,
+    // @RequestParam("descripcion") String descripcion) {
+
+    // // comprobar si la simulación existe
+    // Simulacion simulacion = new Simulacion();
+    // simulacion.setId(idDecision);
+
+    // // Crear la decisión de simulación
+    // DecisionSimulacion decision = new DecisionSimulacion();
+    // decision.setSimulacion(simulacion);
+    // decision.setDescripcion(descripcion);
+
+    // decisionSimulacionService.guardar(decision);
+
+    // return ResponseEntity.ok().body("Guardado correctamente");
+    // }
+
 }

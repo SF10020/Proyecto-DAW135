@@ -184,6 +184,7 @@ document.getElementById("btnConfirmarEliminar").addEventListener("click", functi
     }
 });
 
+
 // --------- FUNCIÓN PDF CORREGIDA ---------
 function descargarPDF() {
     // Selecciona el tablero visible, con columnas y que esté en pantalla
