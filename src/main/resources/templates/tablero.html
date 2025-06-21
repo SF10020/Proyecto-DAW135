@@ -7,6 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/tablero.css}">
+        <!-- html2pdf.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
@@ -21,8 +23,14 @@
     Tablero <span th:text="${metodologia}">[Metodología]</span> Dinámico
 </h2>
 
+<div class="text-center my-3">
+    <button onclick="descargarPDF()" class="btn btn-outline-secondary">
+        <i class="bi bi-file-earmark-pdf"></i> Guardar tablero como PDF
+    </button>
+</div>
+
 <!-- Tablero Scrum Dinámico Limpio y Dinámico -->
-<div class="container-fluid mt-4">
+<div class="container-fluid mt-4" th:if="${metodologia == 'Scrum'}">
     <div class="row">
 
         <!-- Columna: Backlog -->
