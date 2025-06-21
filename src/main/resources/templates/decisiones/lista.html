@@ -36,15 +36,13 @@
                 title="Ver tareas">
                 <i class="bi bi-eye"></i> Ver Tareas
             </button>
-
-
             <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Proyecto</th>
                         <th>Descripción</th>
-                       <th>Acciones</th> 
+                        <th>Nivel</th>
                     </tr>
                 </thead>
                 <tbody id="decisionesTableBody">
@@ -52,16 +50,7 @@
                         <td th:text="${decision.idDecision}"></td>
                         <td th:text="${decision.nombreProyecto}"></td>
                         <td th:text="${decision.descripcion}"></td>
-                        <td>
-                          <button type="button"
-                                    class="btn btn-sm btn-outline-danger btnDeleteDecision"
-                                    th:data-id="${decision.idDecision}"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#confirmDeleteModal"
-                                    title="Eliminar">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </td> 
+                        <td th:text="${decision.prioridad}"></td>
                     </tr>
                 </tbody>
             </table>
@@ -72,6 +61,85 @@
             <a href="/home" class="btn btn-secondary">
                 <i class="bi bi-arrow-left me-1"></i> Volver al Inicio
             </a>
+            <button type="button" class="btn btn-primary btn-abrir-crear-usuario btnAddDecision">
+                <i class="bi bi-plus-circle me-1"></i> Nueva Decisión
+            </button>
+
+        </div>
+    </div>
+
+  <div class="modal fade" id="nuevaSimulacionModal" tabindex="-1" aria-labelledby="nuevaSimulacionLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form id="formSimulacion" method="post" action="#">
+            <input type="hidden" id="proyectoIdSeleccionado" name="proyectoId">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nuevaSimulacionLabel">Nueva Decisión</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="4" placeholder="" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label d-block">Etiqueta de Riesgo</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="prioridad" id="etiqueta1" value="alta" required>
+                            <label class="form-check-label" for="etiqueta1">
+                                Alto
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="prioridad" id="etiqueta2" value="medio">
+                            <label class="form-check-label" for="etiqueta2">
+                                medio
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="prioridad" id="etiqueta3" value="Baja">
+                            <label class="form-check-label" for="etiqueta3">
+                                Baja
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+ <div class="modal fade" id="modalExito" tabindex="-1" aria-labelledby="modalExitoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="modalExitoLabel">¡Éxito!</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                La decisión se guardó correctamente.
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalError" tabindex="-1" aria-labelledby="modalErrorLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="modalErrorLabel">Error</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body" id="modalErrorBody">
+                Ocurrió un error al guardar la decisión.
+            </div>
+            </div>
         </div>
     </div>
 
@@ -92,6 +160,21 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modalSeleccionProyecto" tabindex="-1" aria-labelledby="modalSeleccionProyectoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-dark">
+                <h5 class="modal-title" id="modalSeleccionProyectoLabel">Aviso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                Por favor selecciona un proyecto antes de crear una decision.
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <div class="modal fade" id="modalTareas" tabindex="-1" aria-labelledby="modalTareasLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -128,8 +211,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script th:src="@{/js/decisiones.js}"></script>
-
-
-
+    <script th:src="@{/js/newDecision.js}"></script>
 </body>
 </html>

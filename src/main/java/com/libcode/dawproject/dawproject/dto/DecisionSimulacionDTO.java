@@ -8,13 +8,23 @@ public class DecisionSimulacionDTO {
     private Long idSimulacion;
     private BigDecimal costoEstimado;
     private String nombreProyecto;
+    private String prioridad;
 
-    public DecisionSimulacionDTO(Long idDecision, String descripcion, Long idSimulacion, BigDecimal costoEstimado, String nombreProyecto) {
+    public DecisionSimulacionDTO(Long idDecision, String descripcion, Long idSimulacion, BigDecimal costoEstimado, String nombreProyecto, String prioridad) {
         this.idDecision = idDecision;
         this.descripcion = descripcion;
         this.idSimulacion = idSimulacion;
         this.costoEstimado = costoEstimado;
         this.nombreProyecto = nombreProyecto;
+        this.prioridad = prioridad;
+    }
+
+    // setter y getter para prioridad
+    public String getPrioridad() {
+        return prioridad;
+    }
+    public void setPrioridad(String prioridad) {
+        this.prioridad = prioridad;
     }
 
     // Getters y setters

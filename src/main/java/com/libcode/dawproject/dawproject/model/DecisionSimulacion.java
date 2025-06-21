@@ -17,13 +17,17 @@ public class DecisionSimulacion {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String descripcion;
 
+    @Column(length = 50) 
+    private String prioridad;
+
     // Constructor vacío
     public DecisionSimulacion() {}
 
     // Constructor con campos
-    public DecisionSimulacion(Simulacion simulacion, String descripcion) {
+    public DecisionSimulacion(Simulacion simulacion, String descripcion, String prioridad) {
         this.simulacion = simulacion;
         this.descripcion = descripcion;
+        this.prioridad = prioridad;
     }
 
     // Getters y Setters
@@ -49,5 +53,13 @@ public class DecisionSimulacion {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(String prioridad) {
+        this.prioridad = prioridad;
     }
 }

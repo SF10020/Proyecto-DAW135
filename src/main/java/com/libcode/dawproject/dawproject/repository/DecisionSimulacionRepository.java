@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DecisionSimulacionRepository extends JpaRepository<DecisionSimulacion, Long> {
         @Query("SELECT new com.libcode.dawproject.dawproject.dto.DecisionSimulacionDTO(" +
-                "d.id, d.descripcion, s.id, s.costoEstimado, p.nombre) " +
+                "d.id, d.descripcion, s.id, s.costoEstimado, p.nombre, d.prioridad) " +
                 "FROM DecisionSimulacion d " +
                 "JOIN d.simulacion s " +
                 "JOIN s.proyecto p")
@@ -22,7 +22,7 @@ public interface DecisionSimulacionRepository extends JpaRepository<DecisionSimu
     // filtrado por proyecto
 
         @Query("SELECT new com.libcode.dawproject.dawproject.dto.DecisionSimulacionDTO(" +
-                "d.id, d.descripcion, s.id, s.costoEstimado, p.nombre) " +
+                "d.id, d.descripcion, s.id, s.costoEstimado, p.nombre, d.prioridad) " +
                 "FROM DecisionSimulacion d " +
                 "JOIN d.simulacion s " +
                 "JOIN s.proyecto p " +

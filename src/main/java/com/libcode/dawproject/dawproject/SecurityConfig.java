@@ -42,6 +42,8 @@ public class SecurityConfig {
                 .requestMatchers("/editor/**").hasAuthority("ROLE_Editor")
                 .requestMatchers("/api/tareas/**").hasAnyAuthority("ROLE_Admin", "ROLE_Editor")
                 .requestMatchers("/api/simulaciones/**").hasAnyAuthority("ROLE_Admin", "ROLE_Editor")
+                // .requestMatchers("/decisiones/crearDecision").hasAnyAuthority("ROLE_Admin", "ROLE_Editor")
+                .requestMatchers("/decisiones/crearDecision").permitAll()
                 .anyRequest().authenticated()
             )
             .csrf(csrf -> csrf

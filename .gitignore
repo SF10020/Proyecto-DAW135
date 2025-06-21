@@ -4,6 +4,8 @@ target/
 build/
 logs/
 *.log
+s.txt
+
 
 # Archivos sensibles
 .env

@@ -21,18 +21,7 @@ selectProyect.addEventListener('change', () => {
                                 <td>${decision.idDecision}</td>
                                 <td>${decision.nombreProyecto}</td>
                                 <td>${decision.descripcion}</td>
-                                <td>
-                                    <button type="button"
-                                    class="btn btn-sm btn-outline-danger btnDeleteDecision"
-                                    th:data-id=${decision.idDecision}
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#confirmDeleteModal"
-                                    title="Eliminar">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                              
-                            </td>
-                            
+                                <td>${decision.prioridad}</td>
                             `;
                     tableBody.appendChild(row);
                 });

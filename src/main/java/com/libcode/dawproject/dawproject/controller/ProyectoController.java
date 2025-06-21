@@ -1,9 +1,13 @@
 package com.libcode.dawproject.dawproject.controller;
 
+import com.libcode.dawproject.dawproject.model.DecisionSimulacion;
 import com.libcode.dawproject.dawproject.model.Proyecto;
+import com.libcode.dawproject.dawproject.model.Simulacion;
+import com.libcode.dawproject.dawproject.service.DecisionSimulacionService;
 import com.libcode.dawproject.dawproject.service.MetodologiaService;
 import com.libcode.dawproject.dawproject.service.ProyectoService;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/proyectos")
@@ -22,10 +27,47 @@ public class ProyectoController {
 
     private final ProyectoService proyectoService;
     private final MetodologiaService metodologiaService;
+    private final DecisionSimulacionService decisionSimulacionService;
 
-    public ProyectoController(ProyectoService proyectoService, MetodologiaService metodologiaService) {
+    public ProyectoController(ProyectoService proyectoService, MetodologiaService metodologiaService,
+            DecisionSimulacionService decisionSimulacionService) {
         this.proyectoService = proyectoService;
         this.metodologiaService = metodologiaService;
+        this.decisionSimulacionService = decisionSimulacionService;
+    }
+
+    @PostMapping("/decisiones/crear")
+    @ResponseBody
+    public ResponseEntity<?> crearDecisionSimulacion(
+            @RequestParam("proyectoId") Long proyectoId,
+            @RequestParam("descripcion") String descripcion,
+            @RequestParam("prioridad") String prioridad) { // nuevo parámetro
+
+        Optional<Proyecto> proyectoOpt = proyectoService.obtenerPorId(proyectoId);
+        if (proyectoOpt.isEmpty()) {
+            return ResponseEntity.badRequest().body("Proyecto no encontrado");
+        }
+
+        Proyecto proyecto = proyectoOpt.get();
+
+        List<Simulacion> simulaciones = proyecto.getSimulaciones();
+        if (simulaciones == null || simulaciones.isEmpty()) {
+            return ResponseEntity.badRequest().body("No existe simulación para este proyecto");
+        }
+
+        Simulacion simulacion = simulaciones.get(0);
+
+        DecisionSimulacion decision = new DecisionSimulacion();
+        decision.setSimulacion(simulacion);
+        decision.setDescripcion(descripcion);
+        decision.setPrioridad(prioridad); // asignar prioridad
+
+        try {
+            decisionSimulacionService.guardar(decision);
+            return ResponseEntity.ok("Decisión guardada correctamente");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error al guardar la decisión");
+        }
     }
 
     // Ruta: http://localhost:8080/proyectos
@@ -79,4 +121,26 @@ public class ProyectoController {
     public List<Proyecto> obtenerProyectosPorMetodologia(@RequestParam("id") Long metodologiaId) {
         return proyectoService.obtenerPorMetodologiaId(metodologiaId);
     }
+
+    // temporal
+    // @PostMapping("/decisiones/crearDecision")
+    // @ResponseBody
+    // public ResponseEntity<?> crearDecisionSimulacion(
+    // @RequestParam("idDecision") Long idDecision,
+    // @RequestParam("descripcion") String descripcion) {
+
+    // // comprobar si la simulación existe
+    // Simulacion simulacion = new Simulacion();
+    // simulacion.setId(idDecision);
+
+    // // Crear la decisión de simulación
+    // DecisionSimulacion decision = new DecisionSimulacion();
+    // decision.setSimulacion(simulacion);
+    // decision.setDescripcion(descripcion);
+
+    // decisionSimulacionService.guardar(decision);
+
+    // return ResponseEntity.ok().body("Guardado correctamente");
+    // }
+
 }

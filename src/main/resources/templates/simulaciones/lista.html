@@ -103,9 +103,7 @@
                             <a href="#" class="btn btn-sm btn-outline-primary">
                                 <i class="bi bi-bar-chart"></i>
                             </a>
-                            <button type="button" th:data-id="${simulacion.id}" class="btn btn-sm btn-outline-primary btnAddDecision" data-bs-toggle="modal" data-bs-target="#nuevaSimulacionModal">
-                                    <i class="bi bi-plus-circle me-1"></i> 
-                            </button>
+                        
                         </div>
                     </td>
                 </tr>
@@ -166,57 +164,7 @@
 
 
 
- <div class="modal fade" id="nuevaSimulacionModal" tabindex="-1" aria-labelledby="nuevaSimulacionLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <form id="formSimulacion" method="post" action="#">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="nuevaSimulacionLabel">Nueva Decision</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                <div class="mb-3">
-                    <label for="descripcion" class="form-label">Descripcion</label>
-                    <textarea class="form-control" id="descripcion" name="descripcion" rows="4" placeholder="" required></textarea>
-                </div>
-                </div>
-                <div class="modal-footer">
-                <button type="submit" class="btn btn-success">Guardar</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                </div>
-            </div>
-            </form>
-        </div>
-    </div>
-
-
- <div class="modal fade" id="modalExito" tabindex="-1" aria-labelledby="modalExitoLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title" id="modalExitoLabel">¡Éxito!</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                La decisión se guardó correctamente.
-            </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="modalError" tabindex="-1" aria-labelledby="modalErrorLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title" id="modalErrorLabel">Error</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body" id="modalErrorBody">
-                Ocurrió un error al guardar la decisión.
-            </div>
-            </div>
-        </div>
-    </div>
+ 
 
 
 
@@ -225,6 +173,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script th:src="@{/js/simulaciones.js}"></script>
-    <script th:src="@{/js/newDecision.js}"></script>
+
 </body>
 </html>

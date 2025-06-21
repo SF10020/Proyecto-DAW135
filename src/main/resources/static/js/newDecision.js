@@ -1,45 +1,62 @@
-let id = null;
-// recuperamos el id de la simulacion seleccionada
-$(document).on('click', '.btnAddDecision', function () {
-    id = $(this).data('id');
-    console.log(id);
+document.addEventListener('DOMContentLoaded', () => {
+    const selectProyecto = document.getElementById('proyectoSelect');
+    const btnNuevaSimulacion = document.querySelector('.btnAddDecision');
+    const inputProyectoId = document.getElementById('proyectoIdSeleccionado');
+
+    btnNuevaSimulacion.addEventListener('click', () => {
+        const proyectoId = selectProyecto.value;
+
+        if (!proyectoId) {
+            const errorModal = new bootstrap.Modal(document.getElementById('modalSeleccionProyecto'));
+            errorModal.show();
+            return;
+        }
+
+        inputProyectoId.value = proyectoId;
+
+        const modal = new bootstrap.Modal(document.getElementById('nuevaSimulacionModal'));
+        modal.show();
+    });
 });
 
-// recuperamos todo el formulario
+
+
 document.getElementById("formSimulacion").addEventListener("submit", function (event) {
     event.preventDefault();
 
     const form = this;
-    // agregamos el id de la simulacion
     const formData = new FormData(form);
-    formData.append("idDecision", id);
 
-    console.log(formData);
-
-    // hacemos la peticion al backend
-    fetch('/decisiones/crearDecision', {
+    fetch('/api/simulaciones/decisiones/crear', {
         method: 'POST',
         body: formData
     })
-    .then(response => {
-        if (!response.ok) {
-            return response.text().then(text => { throw new Error(text || 'Error inesperado'); });
-        }
-        return response.text();
-    })
-    // mostramos modales segun convenga
-    .then(data => {
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => { throw new Error(text); });
+            }
+            return response.text();
+        })
+        .then(responseText => {
+            // Mostrar modal de éxito
+            const modalExito = new bootstrap.Modal(document.getElementById('modalExito'));
+            modalExito.show();
 
-        const modal = bootstrap.Modal.getInstance(document.getElementById('nuevaSimulacionModal'));
-        modal.hide();
-        form.reset();
-        const modalExito = new bootstrap.Modal(document.getElementById('modalExito'));
-        modalExito.show();
-    })
-    .catch(error => {
-        console.error('Error al guardar la simulación:', error.message);
-        document.getElementById('modalErrorBody').textContent = "Error al crear nueva decisión: " + error.message;
-        const modalError = new bootstrap.Modal(document.getElementById('modalError'));
-        modalError.show();
-    });
+            // Limpiar formulario
+            form.reset();
+
+            // Cerrar modal de creación
+            const modalCrear = bootstrap.Modal.getInstance(document.getElementById('nuevaSimulacionModal'));
+            if (modalCrear) {
+                modalCrear.hide();
+            }
+        })
+        .catch(err => {
+            // Mostrar mensaje de error dinámicamente
+            const modalErrorBody = document.getElementById("modalErrorBody");
+            modalErrorBody.textContent = err.message || "Ocurrió un error al guardar la decisión.";
+
+            const modalError = new bootstrap.Modal(document.getElementById('modalError'));
+            modalError.show();
+        });
 });
