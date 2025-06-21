@@ -10,7 +10,7 @@ s.txt
 # Archivos sensibles
 .env
 
-# Maven
+# Mavengit 
 !.mvn/wrapper/maven-wrapper.jar
 
 # STS
