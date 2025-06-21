@@ -19,15 +19,6 @@ public class DecisionSimulacionDTO {
         this.prioridad = prioridad;
     }
 
-    // setter y getter para prioridad
-    public String getPrioridad() {
-        return prioridad;
-    }
-    public void setPrioridad(String prioridad) {
-        this.prioridad = prioridad;
-    }
-
-    // Getters y setters
     public Long getIdDecision() {
         return idDecision;
     }
@@ -66,5 +57,13 @@ public class DecisionSimulacionDTO {
 
     public void setNombreProyecto(String nombreProyecto) {
         this.nombreProyecto = nombreProyecto;
+    }
+
+    public String getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(String prioridad) {
+        this.prioridad = prioridad;
     }
 }

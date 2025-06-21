@@ -137,6 +137,19 @@ body {
     margin: 0.25rem 0;
     border-color: var(--border-color);
 }
+/* OCULTAR BOTONES EN PDF/IMPRESIÓN */
+@media print {
+  .btn,
+  .add-task-btn,
+  #guardarCambiosBtn,
+  a.btn,
+  .bi-trash,
+  .text-center.my-3,
+  .text-center.mt-4.mb-5
+  {
+    display: none !important;
+  }
+}
 
 /* Page title */
 .page-title {

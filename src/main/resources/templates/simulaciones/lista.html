@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Lista de Simulaciones</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/simulaciones.css}">
-        <link rel="icon" type="image/png" th:href="@{/img/TaskFlowLogoSinLetras.png}">
+    <link rel="icon" type="image/png" th:href="@{/img/TaskFlowLogoSinLetras.png}">
+
     <style>
         .action-buttons .btn {
             border-radius: 50%;
@@ -59,121 +60,178 @@
     <!-- menu de navegacion reutilizable -->
     <div th:replace="fragments/navbar :: navbar"></div>
 
-
-<div class="container mt-4">
-    <!-- Banner de alerta tipo éxito -->
-    <div id="alerta-exito" class="alerta-exito" style="display:none;">
-      <span id="mensaje-alerta"></span>
-      <span class="cerrar-alerta" onclick="cerrarAlertaExito()">&times;</span>
-    </div>
-    <h1 class="page-title">Lista de Simulaciones</h1>
-    <div class="table-container">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Proyecto</th>
-                    <th>Tiempo Estimado (días)</th>
-                    <th>Costo Estimado</th>
-                    <th>Calidad Estimada (%)</th>
-                    <th>Fecha de Simulación</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="simulacion : ${simulaciones}" th:attr="data-simulacion-id=${simulacion.id}">
-                    <td th:text="${simulacion.id}"></td>
-                    <td th:text="${simulacion.proyecto.nombre}"></td>
-                    <td th:text="${simulacion.tiempoEstimado}" class="tiempo-estimado"></td>
-                    <td th:text="${simulacion.costoEstimado}" class="costo-estimado"></td>
-                    <td th:text="${simulacion.calidadEstimada}" class="calidad-estimada"></td>
-                    <td th:text="${#temporals.format(simulacion.fechaSimulacion, 'dd/MM/yyyy HH:mm')}"></td>
-                    <td>
-                        <div class="action-buttons d-flex">
-                            <a th:href="@{'/tablero/' + ${simulacion.proyecto.id}}" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-eye"></i>
-                            </a>
-                            <button type="button" class="btn btn-sm btn-outline-info edit-button"
-                                    data-bs-toggle="modal" data-bs-target="#editSimulacionModal"
-                                    th:data-simulacion-id="${simulacion.id}"
-                                    th:data-tiempo="${simulacion.tiempoEstimado}"
-                                    th:data-costo="${simulacion.costoEstimado}"
-                                    th:data-calidad="${simulacion.calidadEstimada}">
-                            <i class="bi bi-pencil"></i>
-                            </button>
-                            <a href="#" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-bar-chart"></i>
-                            </a>
-                        
-                        </div>
-                    </td>
-                </tr>
-                <tr th:if="${#lists.isEmpty(simulaciones)}">
-                    <td colspan="7">
-                        <div class="empty-state">
-                            <div class="empty-state-icon">
-                                <i class="bi bi-play-circle"></i>
+    <div class="container mt-4">
+        <!-- Banner de alerta tipo éxito -->
+        <div id="alerta-exito" class="alerta-exito" style="display:none;">
+            <span id="mensaje-alerta"></span>
+            <span class="cerrar-alerta" onclick="cerrarAlertaExito()">&times;</span>
+        </div>
+        <h1 class="page-title">Lista de Simulaciones</h1>
+        <div class="table-container">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Proyecto</th>
+                        <th>Tiempo Estimado (días)</th>
+                        <th>Costo Estimado</th>
+                        <th>Calidad Estimada (%)</th>
+                        <th>Fecha de Simulación</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="simulacion : ${simulaciones}" th:attr="data-simulacion-id=${simulacion.id}">
+                        <td th:text="${simulacion.id}"></td>
+                        <td th:text="${simulacion.proyecto.nombre}"></td>
+                        <td th:text="${simulacion.tiempoEstimado}" class="tiempo-estimado"></td>
+                        <td th:text="${simulacion.costoEstimado}" class="costo-estimado"></td>
+                        <td th:text="${simulacion.calidadEstimada}" class="calidad-estimada"></td>
+                        <td th:text="${#temporals.format(simulacion.fechaSimulacion, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td>
+                            <div class="action-buttons d-flex">
+                                <a th:href="@{'/tablero/' + ${simulacion.proyecto.id}}" class="btn btn-sm btn-outline-primary" title="Ver Tablero">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <button type="button" class="btn btn-sm btn-outline-info edit-button"
+                                        data-bs-toggle="modal" data-bs-target="#editSimulacionModal"
+                                        th:data-simulacion-id="${simulacion.id}"
+                                        th:data-tiempo="${simulacion.tiempoEstimado}"
+                                        th:data-costo="${simulacion.costoEstimado}"
+                                        th:data-calidad="${simulacion.calidadEstimada}"
+                                        title="Editar Simulación">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <a href="#" class="btn btn-sm btn-outline-primary" title="Ver Estadísticas">
+                                    <i class="bi bi-bar-chart"></i>
+                                </a>
+                                <button type="button" th:data-id="${simulacion.id}" class="btn btn-sm btn-outline-primary btnAddDecision" data-bs-toggle="modal" data-bs-target="#nuevaSimulacionModal" title="Agregar Decisión">
+                                    <i class="bi bi-plus-circle"></i>
+                                </button>
                             </div>
-                            <p class="empty-state-text">No hay simulaciones para mostrar</p>
-                            <a href="/nueva-simulacion" class="btn btn-primary">Nueva Simulación</a>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(simulaciones)}">
+                        <td colspan="7">
+                            <div class="empty-state text-center py-5">
+                                <div class="empty-state-icon mb-3">
+                                    <i class="bi bi-play-circle fs-1"></i>
+                                </div>
+                                <p class="empty-state-text fs-5">No hay simulaciones para mostrar</p>
+                                <a href="/nueva-simulacion" class="btn btn-primary">Nueva Simulación</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="text-center mt-4 mb-5">
+            <a href="/home" class="btn btn-secondary me-2">
+                <i class="bi bi-arrow-left me-1"></i> Volver al Inicio
+            </a>
+            <a href="/nueva-simulacion" class="btn btn-primary">
+                <i class="bi bi-plus-lg me-1"></i> Nueva Simulación
+            </a>
+        </div>
+    </div>
+
+    <!-- Modal Editar Simulación -->
+    <div class="modal fade" id="editSimulacionModal" tabindex="-1" aria-labelledby="editSimulacionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editSimulacionModalLabel">Editar Simulación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editSimulacionForm">
+                        <input type="hidden" id="simulacionId" name="id">
+                        <div class="mb-3">
+                            <label for="modalTiempoEstimado" class="form-label">Tiempo Estimado (días):</label>
+                            <input type="number" class="form-control" id="modalTiempoEstimado" name="tiempoEstimado" required>
                         </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="text-center mt-4 mb-5">
-        <a href="/home" class="btn btn-secondary me-2">
-            <i class="bi bi-arrow-left me-1"></i> Volver al Inicio
-        </a>
-        <a href="/nueva-simulacion" class="btn btn-primary">
-            <i class="bi bi-plus-lg me-1"></i> Nueva Simulación
-        </a>
-    </div>
-</div>
-<div class="modal fade" id="editSimulacionModal" tabindex="-1" aria-labelledby="editSimulacionModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editSimulacionModalLabel">Editar Simulación</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="editSimulacionForm">
-                    <input type="hidden" id="simulacionId" name="id">
-                    <div class="mb-3">
-                        <label for="modalTiempoEstimado" class="form-label">Tiempo Estimado (días):</label>
-                        <input type="number" class="form-control" id="modalTiempoEstimado" name="tiempoEstimado" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="modalCostoEstimado" class="form-label">Costo Estimado:</label>
-                        <input type="number" step="0.01" class="form-control" id="modalCostoEstimado" name="costoEstimado" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="modalCalidadEstimada" class="form-label">Calidad Estimada (%):</label>
-                        <input type="number" step="0.01" min="0" max="100" class="form-control" id="modalCalidadEstimada" name="calidadEstimada" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="saveSimulacionChanges">Guardar Cambios</button>
+                        <div class="mb-3">
+                            <label for="modalCostoEstimado" class="form-label">Costo Estimado:</label>
+                            <input type="number" step="0.01" class="form-control" id="modalCostoEstimado" name="costoEstimado" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="modalCalidadEstimada" class="form-label">Calidad Estimada (%):</label>
+                            <input type="number" step="0.01" min="0" max="100" class="form-control" id="modalCalidadEstimada" name="calidadEstimada" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="saveSimulacionChanges">Guardar Cambios</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
+    <!-- Modal Nueva Decisión -->
+    <div class="modal fade" id="nuevaSimulacionModal" tabindex="-1" aria-labelledby="nuevaSimulacionLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="formSimulacion" method="post" action="#">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="nuevaSimulacionLabel">Nueva Decisión</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="descripcion" name="descripcion" rows="4" placeholder="" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
+    <!-- Modal Éxito -->
+    <div class="modal fade" id="modalExito" tabindex="-1" aria-labelledby="modalExitoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="modalExitoLabel">¡Éxito!</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    La decisión se guardó correctamente.
+                </div>
+            </div>
+        </div>
+    </div>
 
- 
-
-
+    <!-- Modal Error -->
+    <div class="modal fade" id="modalError" tabindex="-1" aria-labelledby="modalErrorLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="modalErrorLabel">Error</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body" id="modalErrorBody">
+                    Ocurrió un error al guardar la decisión.
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-ajax-uploader/2.6.7/SimpleAjaxUploader.min.js" integrity="sha512-sF1OQUX4620btxfaKLxsFeu/euV3FcPyH+uST3mdEjc8vW8R4z1xNiZhcG7wcZQbFkgFhiiBoAyYNMCL3jufPA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-ajax-uploader/2.6.7/SimpleAjaxUploader.min.js" 
+        integrity="sha512-sF1OQUX4620btxfaKLxsFeu/euV3FcPyH+uST3mdEjc8vW8R4z1xNiZhcG7wcZQbFkgFhiiBoAyYNMCL3jufPA==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" 
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script th:src="@{/js/simulaciones.js}"></script>
+    <script th:src="@{/js/newDecision.js}"></script>
 
 </body>
 </html>

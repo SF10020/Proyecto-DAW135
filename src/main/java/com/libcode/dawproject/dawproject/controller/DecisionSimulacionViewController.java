@@ -52,8 +52,6 @@ public class DecisionSimulacionViewController {
 
         return ResponseEntity.ok().body("Guardado correctamente");
     }
-
-    
     @GetMapping("/decisiones")
     public String listarDecisiones(@RequestParam(value = "proyectoId", required = false) Long proyectoId, Model model) {
         List<DecisionSimulacionDTO> decisiones;

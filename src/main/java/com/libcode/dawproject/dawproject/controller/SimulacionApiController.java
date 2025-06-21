@@ -40,10 +40,10 @@ public class SimulacionApiController {
 
     @Autowired
     private SimulacionService simulacionService;
-    
+
     @Autowired
     private ProyectoService proyectoService;
-    
+
     @Autowired
     private DecisionSimulacionService decisionSimulacionService;
 
@@ -59,52 +59,45 @@ public class SimulacionApiController {
                 proyectoOpt.get(),
                 request.getTiempoEstimado(),
                 request.getCostoEstimado(),
-                request.getCalidadEstimada());
+                request.getCalidadEstimada()
+        );
 
         Simulacion guardada = simulacionRepository.save(simulacion);
         return ResponseEntity.ok(guardada);
     }
 
-    // ENDPOINT PARA ACTUALIZAR SIMULACIÓN VIA AJAX (PUT)
     @PutMapping("/actualizar")
     public ResponseEntity<SimulacionDTO> actualizarSimulacion(@RequestBody Simulacion simulacionActualizada) {
-        // 1. Verificar si la simulación existe en la base de datos
         Simulacion simulacionExistente = simulacionService.obtenerPorId(simulacionActualizada.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Simulación no encontrada con ID: " + simulacionActualizada.getId()));
 
-        // 2. Actualizar solo los campos que vienen del modal
         simulacionExistente.setTiempoEstimado(simulacionActualizada.getTiempoEstimado());
         simulacionExistente.setCostoEstimado(simulacionActualizada.getCostoEstimado());
         simulacionExistente.setCalidadEstimada(simulacionActualizada.getCalidadEstimada());
 
-        // 3. Guardar los cambios en la base de datos
         Simulacion simulacionGuardada = simulacionService.guardar(simulacionExistente);
 
-        // 4. Mapear a DTO
         SimulacionDTO dto = new SimulacionDTO();
         dto.setId(simulacionGuardada.getId());
         dto.setTiempoEstimado(simulacionGuardada.getTiempoEstimado());
-        dto.setCostoEstimado(
-                simulacionGuardada.getCostoEstimado() != null ? simulacionGuardada.getCostoEstimado().doubleValue()
-                        : 0.0);
+        dto.setCostoEstimado(simulacionGuardada.getCostoEstimado() != null
+                ? simulacionGuardada.getCostoEstimado().doubleValue()
+                : 0.0);
         dto.setCalidadEstimada(simulacionGuardada.getCalidadEstimada());
-        dto.setFechaSimulacion(
-                simulacionGuardada.getFechaSimulacion() != null
-                        ? simulacionGuardada.getFechaSimulacion().toString()
-                        : null);
+        dto.setFechaSimulacion(simulacionGuardada.getFechaSimulacion() != null
+                ? simulacionGuardada.getFechaSimulacion().toString()
+                : null);
 
-        // 5. Devolver la simulación actualizada como respuesta JSON
         return ResponseEntity.ok(dto);
     }
 
-    // agregado
     @PostMapping("/decisiones/crear")
     @ResponseBody
     public ResponseEntity<?> crearDecisionSimulacion(
             @RequestParam("proyectoId") Long proyectoId,
             @RequestParam("descripcion") String descripcion,
-            @RequestParam("prioridad") String prioridad) { // nuevo parámetro
+            @RequestParam("prioridad") String prioridad) {
 
         Optional<Proyecto> proyectoOpt = proyectoService.obtenerPorId(proyectoId);
         if (proyectoOpt.isEmpty()) {
@@ -112,8 +105,8 @@ public class SimulacionApiController {
         }
 
         Proyecto proyecto = proyectoOpt.get();
-
         List<Simulacion> simulaciones = proyecto.getSimulaciones();
+
         if (simulaciones == null || simulaciones.isEmpty()) {
             return ResponseEntity.badRequest().body("No existe simulación para este proyecto");
         }
@@ -123,7 +116,7 @@ public class SimulacionApiController {
         DecisionSimulacion decision = new DecisionSimulacion();
         decision.setSimulacion(simulacion);
         decision.setDescripcion(descripcion);
-        decision.setPrioridad(prioridad); // asignar prioridad
+        decision.setPrioridad(prioridad);
 
         try {
             decisionSimulacionService.guardar(decision);
@@ -132,5 +125,4 @@ public class SimulacionApiController {
             return ResponseEntity.status(500).body("Error al guardar la decisión");
         }
     }
-
 }

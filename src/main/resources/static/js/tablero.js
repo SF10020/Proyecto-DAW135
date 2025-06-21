@@ -183,3 +183,34 @@ document.getElementById("btnConfirmarEliminar").addEventListener("click", functi
         });
     }
 });
+
+// --------- FUNCIÓN PDF CORREGIDA ---------
+function descargarPDF() {
+    // Selecciona el tablero visible, con columnas y que esté en pantalla
+    var containers = document.querySelectorAll('.container-fluid.mt-4');
+    var element = null;
+    containers.forEach(function (cont) {
+        var visible = cont.offsetParent !== null; // true si se muestra
+        var hasCols = cont.querySelector('.col') !== null;
+        if (visible && hasCols) element = cont;
+    });
+    if (!element) {
+        alert('No se encontró el tablero visible para exportar.');
+        return;
+    }
+
+    var metodo = document.querySelector('h2 span')?.textContent || 'Tablero';
+    var fecha = new Date();
+    var fechaStr = fecha.toISOString().slice(0, 16).replace('T', '_').replace(':', '-');
+    var nombreArchivo = `Reporte_${metodo}_${fechaStr}.pdf`;
+
+    html2pdf()
+        .set({
+            margin: 0.5,
+            filename: nombreArchivo,
+            html2canvas: { scale: 2 },
+            jsPDF: { orientation: 'landscape' }
+        })
+        .from(element)
+        .save();
+}
